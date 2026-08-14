@@ -18,3 +18,17 @@ export function Card({ children, className, ...props }: CardProps) {
     </div>
   );
 }
+
+export function PainCard({ children, className, ...props }: CardProps) {
+  return (
+    <div
+      className={cn(
+        "flex items-center rounded-2xl bg-white p-6 shadow-[0_18px_40px_-30px_rgba(29,41,55,0.35)] transition-transform duration-300 hover:-translate-y-1",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}

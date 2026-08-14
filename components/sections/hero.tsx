@@ -1,62 +1,128 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import { ButtonLink } from "@/components/ui/button";
-import { buildWhatsappUrl } from "@/lib/constants/contact";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { ImageSlot } from "@/components/ui/image-slot";
+import { gsap } from "@/lib/gsap";
 
 export function Hero() {
-  return (
-    <section
-      id="top"
-      className="relative flex min-h-[92vh] items-center overflow-hidden pt-24"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(60% 50% at 20% 20%, rgb(255 46 166 / 0.18), transparent), radial-gradient(50% 45% at 85% 30%, rgb(106 91 255 / 0.22), transparent), var(--color-obsidian-950)",
-        }}
-      />
+  const rootRef = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
 
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
-        <div className="[animation:var(--animate-fade-up)]">
-          <p className="mb-4 inline-block rounded-full border border-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-indigo-400">
-            Growth &amp; Tech para clinicas de estetica
-          </p>
-          <h1 className="text-4xl font-bold leading-tight tracking-tight text-neutral-050 sm:text-5xl lg:text-6xl">
-            Transformamos clinicas em{" "}
-            <span className="text-gradient">maquinas previsiveis</span> de agendamentos
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+      tl.fromTo(
+        ".hero-eyebrow",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.6 },
+      )
+        .fromTo(
+          ".hero-line",
+          { opacity: 0, y: 34, rotateX: -42, transformPerspective: 1000 },
+          { opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.12 },
+          "-=0.3",
+        )
+        .fromTo(
+          ".hero-fade",
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 },
+          "-=0.5",
+        )
+        .fromTo(
+          ".hero-image",
+          { opacity: 0, y: 16, scale: 1.04 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.9 },
+          "-=0.9",
+        );
+    }, rootRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    const el = tiltRef.current;
+    if (!el || window.matchMedia("(pointer: coarse)").matches) return;
+
+    const rotateX = gsap.quickTo(el, "rotateX", { duration: 0.5, ease: "power3.out" });
+    const rotateY = gsap.quickTo(el, "rotateY", { duration: 0.5, ease: "power3.out" });
+
+    function handleMove(event: MouseEvent) {
+      const rect = el!.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width - 0.5;
+      const py = (event.clientY - rect.top) / rect.height - 0.5;
+      rotateY(px * 14);
+      rotateX(-py * 14);
+    }
+
+    function handleLeave() {
+      rotateX(0);
+      rotateY(0);
+    }
+
+    el.addEventListener("mousemove", handleMove);
+    el.addEventListener("mouseleave", handleLeave);
+    return () => {
+      el.removeEventListener("mousemove", handleMove);
+      el.removeEventListener("mouseleave", handleLeave);
+    };
+  }, []);
+
+  return (
+    <div ref={rootRef} className="mx-4 mt-4 overflow-hidden rounded-[40px] bg-obsidian-900 px-6 py-24 sm:mx-6 sm:px-10 lg:px-16">
+      <div
+        className="mx-auto grid max-w-[1200px] items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]"
+        style={{ perspective: 1400 }}
+      >
+        <div className="flex flex-col gap-7">
+          <div className="hero-eyebrow">
+            <Eyebrow tone="on-dark">Marketing para crescer</Eyebrow>
+          </div>
+
+          <h1 className="flex flex-col text-white" style={{ perspective: 1000 }}>
+            <span className="hero-line block text-[clamp(48px,5.2vw,86px)] leading-[0.94]">
+              Coloque
+            </span>
+            <span className="hero-line block text-[clamp(48px,5.2vw,86px)] leading-[0.94]">
+              sua empresa
+            </span>
+            <span className="hero-line block text-[clamp(48px,5.2vw,86px)] leading-[0.94] text-magenta-400">
+              de volta em movimento.
+            </span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-neutral-200">
-            Tecnologia de alta conversao e trafego pago focado em performance para clinicas de
-            estetica e negocios locais que querem previsibilidade de caixa.
+
+          <p className="hero-fade max-w-[52ch] text-lg leading-relaxed text-neutral-400">
+            Mais visibilidade, mais pessoas encontrando sua marca e uma presença digital feita
+            para transformar interesse em clientes.
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <ButtonLink href="#diagnostico">Solicitar diagnostico gratuito</ButtonLink>
-            <ButtonLink
-              href={buildWhatsappUrl()}
-              variant="secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Falar no WhatsApp
+
+          <div className="hero-fade flex flex-wrap items-center gap-4">
+            <ButtonLink href="/contato" size="lg">
+              Receber minha análise gratuita
+            </ButtonLink>
+            <ButtonLink href="/servicos" variant="outline-on-dark" size="lg">
+              Ver serviços
             </ButtonLink>
           </div>
+
+          <p className="hero-fade text-sm text-neutral-600">
+            Análise gratuita ● Diagnóstico em até 7 dias ● Sem compromisso
+          </p>
         </div>
 
         <div
-          aria-hidden="true"
-          className="glass relative hidden aspect-square rounded-3xl lg:block"
+          ref={tiltRef}
+          className="hero-image relative h-[420px] overflow-hidden rounded-3xl shadow-[0_40px_90px_-40px_rgba(0,0,0,0.65),0_0_0_1px_rgba(159,115,255,0.18)] sm:h-[520px]"
+          style={{ transformStyle: "preserve-3d" }}
         >
-          <div className="absolute inset-6 rounded-2xl border border-white/10 bg-gradient-to-br from-magenta-500/20 via-transparent to-indigo-500/25" />
-          <div className="absolute left-10 top-10 h-24 w-40 rounded-xl border border-white/10 bg-obsidian-800/80 p-4 shadow-glow-indigo">
-            <p className="text-xs text-neutral-400">Agendamentos</p>
-            <p className="text-2xl font-bold text-gradient">+300%</p>
-          </div>
-          <div className="absolute bottom-12 right-10 h-24 w-44 rounded-xl border border-white/10 bg-obsidian-800/80 p-4 shadow-glow-magenta">
-            <p className="text-xs text-neutral-400">Resposta ao lead</p>
-            <p className="text-2xl font-bold text-gradient">&lt; 5min</p>
-          </div>
+          <ImageSlot
+            label="Dono(a) de clínica ou negócio acompanhando o movimento da própria empresa — ambiente moderno, confiança e crescimento (evitar banco de imagens genérico)"
+            priority
+            className="rounded-3xl"
+          />
         </div>
       </div>
-    </section>
+    </div>
   );
 }

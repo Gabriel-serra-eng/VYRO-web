@@ -4,44 +4,42 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ButtonLink } from "@/components/ui/button";
 import { NAV_LINKS } from "@/lib/constants/nav";
-import { CONTACT, buildWhatsappUrl } from "@/lib/constants/contact";
+import { buildWhatsappUrl } from "@/lib/constants/contact";
 
 export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="glass fixed inset-x-0 top-0 z-40">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <a href="#top" className="text-lg font-bold tracking-tight text-neutral-050">
-          {CONTACT.brandName}
+    <div className="fixed inset-x-0 top-0 z-40 p-4">
+      <header className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-8 rounded-[20px] bg-obsidian-900/95 px-5 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)] backdrop-blur-md sm:px-8">
+        <a
+          href="/"
+          className="font-[family-name:var(--font-brand)] text-2xl font-medium tracking-tight text-white"
+        >
+          vyro<span className="text-magenta-400">.</span>
         </a>
 
-        <nav aria-label="Navegacao principal" className="hidden gap-8 md:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
+          <a href="/" className="font-[family-name:var(--font-brand)] text-[15px] font-medium text-magenta-400">
+            Home
+          </a>
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-neutral-200 transition-colors hover:text-neutral-050"
+              className="font-[family-name:var(--font-brand)] text-[15px] font-medium text-white/85 transition-colors hover:text-magenta-400"
             >
               {link.label}
             </a>
           ))}
-        </nav>
-
-        <div className="hidden md:block">
-          <ButtonLink
-            href={buildWhatsappUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 text-sm"
-          >
-            Falar no WhatsApp
+          <ButtonLink href="/contato" size="sm">
+            Análise gratuita
           </ButtonLink>
-        </div>
+        </nav>
 
         <button
           type="button"
-          className="flex min-h-12 min-w-12 items-center justify-center rounded-full text-neutral-050 md:hidden"
+          className="flex min-h-12 min-w-12 items-center justify-center rounded-full text-white md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -50,41 +48,31 @@ export function Header() {
           <span className="sr-only">{open ? "Fechar menu" : "Abrir menu"}</span>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             {open ? (
-              <path
-                d="M6 6l12 12M18 6L6 18"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             ) : (
-              <path
-                d="M4 7h16M4 12h16M4 17h16"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             )}
           </svg>
         </button>
-      </div>
+      </header>
 
       <AnimatePresence>
         {open ? (
           <motion.nav
             id="mobile-nav"
-            aria-label="Navegacao mobile"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            aria-label="Navegação mobile"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="glass flex flex-col gap-1 px-4 pb-4 md:hidden"
+            className="mx-auto mt-2 flex max-w-[1400px] flex-col gap-1 rounded-2xl bg-obsidian-900/95 p-4 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)] backdrop-blur-md md:hidden"
           >
-            {NAV_LINKS.map((link) => (
+            {[{ label: "Home", href: "/" }, ...NAV_LINKS].map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="min-h-12 rounded-lg px-3 py-3 text-base text-neutral-200 hover:bg-white/5 hover:text-neutral-050"
+                className="min-h-12 rounded-lg px-3 py-3 text-base text-white/85 hover:bg-white/5 hover:text-white"
               >
                 {link.label}
               </a>
@@ -96,11 +84,11 @@ export function Header() {
               className="mt-2 justify-center"
               onClick={() => setOpen(false)}
             >
-              Falar no WhatsApp
+              Análise gratuita
             </ButtonLink>
           </motion.nav>
         ) : null}
       </AnimatePresence>
-    </header>
+    </div>
   );
 }

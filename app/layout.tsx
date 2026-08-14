@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Archivo, Inter, Poppins } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { CookieBanner } from "@/components/ui/cookie-banner";
 import { Analytics } from "@/components/scripts/analytics";
 import { CONTACT } from "@/lib/constants/contact";
 import "./globals.css";
 
-const outfit = Outfit({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-display",
+  weight: ["700", "800", "900"],
+  display: "swap",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-brand-font",
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -88,7 +96,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${outfit.variable} ${inter.variable}`}>
+    <html lang="pt-BR" className={`${archivo.variable} ${poppins.variable} ${inter.variable}`}>
       <body className="antialiased">
         <noscript>
           <style>{`.reveal{opacity:1!important;transform:none!important;}`}</style>
@@ -98,7 +106,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Header />
-        <main>{children}</main>
+        <main className="pt-24">{children}</main>
         <CookieBanner />
         <Analytics />
       </body>

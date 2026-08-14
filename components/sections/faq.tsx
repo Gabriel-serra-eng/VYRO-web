@@ -1,35 +1,50 @@
-import { Reveal } from "@/components/ui/reveal";
-import { FAQ_ITEMS } from "@/lib/constants/faq";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Accordion } from "@/components/ui/accordion";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { HOME_FAQ } from "@/lib/constants/home-content";
 
 export function Faq() {
   return (
-    <section id="faq" className="mx-auto max-w-3xl px-4 py-24 sm:px-6">
-      <Reveal>
-        <p className="text-center text-sm font-semibold uppercase tracking-widest text-indigo-400">
-          Perguntas frequentes
-        </p>
-        <h2 className="mt-3 text-center text-3xl font-bold text-neutral-050 sm:text-4xl">
-          Tire suas duvidas sobre a VYRO
-        </h2>
-      </Reveal>
+    <section className="relative mx-4 mt-6 overflow-hidden rounded-[40px] bg-obsidian-900 px-6 py-24 sm:mx-6 sm:px-10 lg:px-16">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-20 -top-36 h-[520px] w-[520px] rounded-full blur-[20px]"
+        style={{
+          background: "radial-gradient(circle, rgba(124,59,255,.34), rgba(124,59,255,0) 68%)",
+          animation: "faq-orb-a 18s ease-in-out infinite",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-44 -right-28 h-[600px] w-[600px] rounded-full blur-[26px]"
+        style={{
+          background: "radial-gradient(circle, rgba(159,115,255,.26), rgba(159,115,255,0) 70%)",
+          animation: "faq-orb-b 24s ease-in-out infinite",
+        }}
+      />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px overflow-hidden">
+        <div
+          className="h-px w-full"
+          style={{
+            background: "linear-gradient(90deg, rgba(124,59,255,0), #9F73FF, rgba(124,59,255,0))",
+            animation: "faq-sweep 6s linear infinite",
+          }}
+        />
+      </div>
 
-      <div className="mt-10 flex flex-col gap-4">
-        {FAQ_ITEMS.map((item, index) => (
-          <Reveal key={item.id} delay={index * 0.05}>
-            <details className="glass group rounded-2xl p-5 open:pb-6">
-              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 text-left font-semibold text-neutral-050">
-                {item.question}
-                <span
-                  aria-hidden="true"
-                  className="shrink-0 text-xl text-indigo-400 transition-transform duration-200 group-open:rotate-45"
-                >
-                  +
-                </span>
-              </summary>
-              <p className="mt-3 text-sm text-neutral-400">{item.answer}</p>
-            </details>
-          </Reveal>
-        ))}
+      <div className="relative mx-auto flex max-w-[1000px] flex-col gap-12">
+        <ScrollReveal>
+          <SectionHeading
+            eyebrow="Dúvidas"
+            title="Perguntas que você"
+            accent="pode estar fazendo."
+            tone="on-dark"
+          />
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.1}>
+          <Accordion items={HOME_FAQ} defaultOpen={0} />
+        </ScrollReveal>
       </div>
     </section>
   );
