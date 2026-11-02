@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ButtonLink } from "@/components/ui/button";
@@ -12,17 +13,17 @@ export function Header() {
   return (
     <div className="fixed inset-x-0 top-0 z-40 p-4">
       <header className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-8 rounded-[20px] bg-obsidian-900/95 px-5 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)] backdrop-blur-md sm:px-8">
-        <a
+        <Link
           href="/"
           className="font-[family-name:var(--font-brand)] text-2xl font-medium tracking-tight text-white"
         >
           vyro<span className="text-magenta-400">.</span>
-        </a>
+        </Link>
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
-          <a href="/" className="font-[family-name:var(--font-brand)] text-[15px] font-medium text-magenta-400">
+          <Link href="/" className="font-[family-name:var(--font-brand)] text-[15px] font-medium text-magenta-400">
             Home
-          </a>
+          </Link>
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
