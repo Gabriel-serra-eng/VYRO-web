@@ -136,6 +136,24 @@ Acesse [http://localhost:3000](http://localhost:3000).
 | [`SPECS.md`](./SPECS.md) | Arquitetura, stack, segurança, mapa de arquivos |
 | [`VYRO_FRONTEND_IMPLEMENTATION_PLAN.md`](./VYRO_FRONTEND_IMPLEMENTATION_PLAN.md) | Direção de arte, tokens, tipografia e princípios de animação |
 
+## Processo de desenvolvimento com IA
+
+O site foi desenvolvido com um fluxo de desenvolvimento assistido por IA. **A aplicação não chama modelos de IA em tempo de execução.**
+
+| Etapa | Ferramenta | Artefato |
+|---|---|---|
+| 1. Escopo e público | Definidos antes do código | [`PRD.md`](./PRD.md) |
+| 2. Decisões técnicas | Especificação para guiar a implementação | [`SPECS.md`](./SPECS.md) |
+| 3. Redesign visual | Claude Design | [`VYRO_FRONTEND_IMPLEMENTATION_PLAN.md`](./VYRO_FRONTEND_IMPLEMENTATION_PLAN.md) |
+| 4. Implementação | Claude Code | Histórico de commits, com co-autoria registrada |
+| 5. Testes de interface pelo agente | Skill `webapp-testing` (Playwright), de terceiros | `.agents/skills/webapp-testing/` |
+
+### Responsabilidades
+
+- **Minhas:** posicionamento da agência, escopo do PRD, conteúdo, aprovação do redesign, regras de consentimento (GTM e Pixel só após aceite).
+- **Com assistência de IA:** escrita dos componentes e da Server Action (Claude Code), plano de implementação do redesign.
+- **De terceiros:** a skill `webapp-testing` foi incluída como ferramenta do agente; não é de minha autoria.
+
 ## Autor
 
 **Gabriel Serra** — [GitHub](https://github.com/Gabriel-serra-eng)
