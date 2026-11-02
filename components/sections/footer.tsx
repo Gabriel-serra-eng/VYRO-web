@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CONTACT } from "@/lib/constants/contact";
 import { NAV_LINKS } from "@/lib/constants/nav";
 
@@ -26,9 +27,9 @@ export function Footer() {
           <span className="font-[family-name:var(--font-brand)] text-[11px] uppercase tracking-[0.14em] text-white">
             Navegação
           </span>
-          <a href="/" className="text-[15px] text-neutral-400 transition-colors hover:text-magenta-400">
+          <Link href="/" className="text-[15px] text-neutral-400 transition-colors hover:text-magenta-400">
             Home
-          </a>
+          </Link>
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
